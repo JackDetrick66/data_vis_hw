@@ -51,15 +51,15 @@ function drawChart(data){
 	// TO DO-SCALES Initialize linear and ordinal scales (input domain and output range)
 	const xScale = d3.scaleLinear()
 		.domain([0, 365])
-		.range([0, 1000]);
+		.range([0, width]);
 
 	const yScale = d3.scaleLinear()
 		.domain([1990, 2020])
-		.range([0, 400]);
+		.range([height, 0]);
 
 	const rScale = d3.scaleLinear()
-		.domain([0, 200])
-		.range([0, 1000]);
+		.domain([0, 100])
+		.range([0, 75]);
 	// TO DO CREATE an xScale using d3.scaleLinear , with domain 0-365 and range 0-width
 	// TO DO CREATE a yScale using d3.scaleLinear, with domain [ max year, min year] and range [0, height]  Note- why did I reverse the domain going from max to min? 
 	// TO DO CREATE an rScale using d3.scaleLinear, with domain the extent of the cost field in data, and range 5, 100
@@ -71,12 +71,25 @@ function drawChart(data){
 
 		//TO DO Initialize axes
 		//  CREATE a top axis using your xScale)
-		const xAxis = d3.axisBottom();
+		const xAxis = d3.axisBottom()
+			.scale(xScale);
 		//  CREATE a left axis using your yScale)
-		const yAxis = d3.axisBottom();
+		const yAxis = d3.axisLeft()
+			.scale(yScale);
 
 
 		//CREATE an xAxisGroup and append it to the SVG
+		const yAxisGroup = svg.append('g')
+			.attr('class', 'axis y-axis')
+			.attr('transform', `translate(0, 0)`)
+			.call(yAxis);
+		const xAxisGroup = svg.append('g')
+			.attr('class', 'axis x-axis')
+			.attr('transform', `translate(0, 0)`)
+			.call(xAxis);
+
+
+
 		//CREATE a yAxisGroup and append it to the SVG
 
 
@@ -85,14 +98,14 @@ function drawChart(data){
 	    .data(data)
 	    .enter()
 	.append('circle')
-	  	.attr('fill', 'black' ) //TO DO: use the color palette. //(d) => colorPalette(d.category) )
+	  	.attr('fill', (d) => colorPalette(d.category)) //TO DO: use the color palette. //(d) => colorPalette(d.category) )
 	    .attr('opacity', .8)
 	    .attr('stroke', "gray")
 	    .attr('stroke-width', 2)
-		.attr()
 	    .attr('r', d => rScale(d.cost)) //TO DO: use the rScale 
 	    .attr('cy', d => yScale(d.year)) // TO DO:  use the yScale 
 	    .attr('cx', d => xScale(d.daysFromYrStart)) //TO DO: use the xScale 
+
 
 
 }
