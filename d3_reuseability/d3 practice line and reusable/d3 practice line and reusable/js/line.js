@@ -71,14 +71,15 @@ class LineChart {
         .x(d => vis.xScale(d.year))
         .y(d => vis.yScale(d.cost))
 
-        //Add circles for each event in the data
+        //add line
       vis.chart.append('path')
         .data([vis.data])
         .attr('class', 'chart-line')
 	      .attr(`fill`, `none`)
 	      .attr(`stroke`, `blue`)
         .attr(`stroke-width`, 2)
-        .attr(`d`, vis.line);
+        .attr(`d`, vis.line)
+        .attr('curve', 'natural');
 
 
 
